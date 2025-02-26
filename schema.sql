@@ -13,3 +13,10 @@ CREATE TABLE requests (
     receiverID integer NOT NULL,
     status VARCHAR(50) DEFAULT 'pending'
 )
+
+CREATE TABLE friends (
+    id integer PRIMARY KEY AUTO_INCREMENT,
+    userID_1 integer NOT NULL,
+    userID_2 integer NOT NULL
+
+)

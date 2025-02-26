@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/users')
 const bcrypt = require('bcrypt')
 const Request = require('../models/requests')
+const Friend = require('../models/friends')
 let msg;
 //Get URL
 router.get('/', async (req, res) => {
@@ -25,6 +26,12 @@ router.get('/logout', (req, res)=> {
         res.clearCookie('connect.sid')
         res.redirect('/')
     })
+})
+router.get('/friends', async (req, res) => {
+    const user = await User.getuser(req.session.name)
+    const friends = await Friend.getfriends(user[0].id)
+    console.log(friends)
+    res.render('friends', {friends: friends})
 })
 //POST URL
 router.post('/register', async (req, res) => {

@@ -13,8 +13,13 @@ async function getrequests(recID) {
         `, [recID])
     return rows;
 }
-
+async function setStatus(status, senderID, receiverID) {
+    const result = await pool.query(`UPDATE requests SET 
+        status = ? WHERE senderID = ? AND receiverID = ?`, 
+        [status, senderID, receiverID])
+}
 module.exports = {
     createRequest: createRequest,
-    getrequests: getrequests
+    getrequests: getrequests,
+    setStatus: setStatus
 }
