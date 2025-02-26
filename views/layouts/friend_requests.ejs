@@ -1,0 +1,9 @@
+<% requests.forEach(element => { %>
+    <div style="width: 100vw; height: 100px; border-bottom: 1px solid black; overflow: hidden;">
+        <h2>You have a friend Request From:<%= element.Username %></h2>
+        <form action="/request/setstatus" method="post">
+            <button type="submit" value="accept" name="status">Accept</button>
+            <button type="submit" value="reject" name="status">Reject</button>
+        </form>
+    </div>
+<% }) %>

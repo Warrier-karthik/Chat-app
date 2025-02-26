@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router()
-const db = require('../database')
+const User = require('../models/users')
 const bcrypt = require('bcrypt')
+const Request = require('../models/requests')
 let msg;
 //Get URL
 router.get('/', async (req, res) => {
-    const user = await db.getuser(req.session.name)
-    res.render('user', {user:user[0]})
+    const user = await User.getuser(req.session.name)
+    const requests = await Request.getrequests(user[0].id)
+    res.render('user', {user:user[0], requests: requests})
 })
 
 router.get('/register', (req, res) => {
@@ -15,10 +17,18 @@ router.get('/register', (req, res) => {
 router.get('/login', (req, res) => {
     res.render('login', {msg: msg})
 })
-
+router.get('/logout', (req, res)=> {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err)
+        }
+        res.clearCookie('connect.sid')
+        res.redirect('/')
+    })
+})
 //POST URL
 router.post('/register', async (req, res) => {
-    const user = await db.getuser(req.body.username)
+    const user = await User.getuser(req.body.username)
     const encryptedpwd = await bcrypt.hash(req.body.password, 10)
     if (user.length > 0 ){
         res.redirect('./register')
@@ -27,10 +37,10 @@ router.post('/register', async (req, res) => {
     
     else if (req.body.password != req.body.Cpassword){
             res.redirect('./register')
-            msg = "User already exist."
+            msg = "Passwords do not match"
         }
     else {
-        const result = await db.createUser(req.body.username, req.body.Fname, req.body.Lname, req.body.email, encryptedpwd)
+        const result = await User.createUser(req.body.username, req.body.Fname, req.body.Lname, req.body.email, encryptedpwd)
         res.redirect('./login')
         msg = ""
     }
@@ -38,7 +48,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    const user = await db.getuser(req.body.username)
+    const user = await User.getuser(req.body.username)
     if (await bcrypt.compare(req.body.password, user[0].Password))
     {
         req.session.isAuthenticated = true;

@@ -12,8 +12,24 @@
             <li><a href="/user/login">Login</a></li>
             <% if (isAuthenticated) { %>
                 <li><a href="/user">Profile</a></li>
+                <li><a href="/user/logout">Logout</a></li>
             <% } %>
         </ul>
     </nav>
+    <% if (isAuthenticated) { %>
+        <div style="margin-top: 50px;">
+            <% users.forEach(element => { %>
+                <% if (element.Username !== name) { %>
+                    <div style="width: 100vw; height: 100px; border-bottom: 1px solid black; overflow: hidden;">
+                        <h2><%= element.Username %></h2>
+                        <form action="/request" method="post">
+                            <button type="submit" value="<%= element.Username %>" name="send">Send Friend Request</button>
+                        </form>
+                    </div>
+                <% } %>
+            
+            <% }); %>
+        </div>
+    <% } %>
 </body>
 </html>

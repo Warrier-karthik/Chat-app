@@ -7,7 +7,7 @@
 </head>
 <body>
     <% if (isAuthenticated) { %>
-    <h1><%= user.Username %></h1>
+        <%- include('./layouts/friend_requests') %>
     <% } %>
 </body>
 </html>

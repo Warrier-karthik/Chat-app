@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/user')
+const requestRouter = require('./routes/request')
 const session = require('express-session')
 const layout = require('express-ejs-layouts')
 app.use(session({
@@ -23,6 +24,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}))
 app.use('/', indexRouter)
 app.use('/user', userRouter)
+app.use('/request', requestRouter)
 app.listen(3000, (error) => {
     if (error) throw error
     console.log("ready")
