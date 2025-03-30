@@ -10,6 +10,7 @@
     <% friends.forEach(element => { %>
         <div style="width: 100vw; height: 100px; border-bottom: 1px solid black; overflow: hidden;">
             <h2><%= element.Username %></h2>
+            <button><a href="/messages/<%= element.id %>">Chat</a></button>
         </div>
     <% }) %>
 </body>

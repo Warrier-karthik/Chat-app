@@ -30,7 +30,6 @@ router.get('/logout', (req, res)=> {
 router.get('/friends', async (req, res) => {
     const user = await User.getuser(req.session.name)
     const friends = await Friend.getfriends(user[0].id)
-    console.log(friends)
     res.render('friends', {friends: friends})
 })
 //POST URL

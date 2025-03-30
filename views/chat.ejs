@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat</title>
+    <style>
+       /* Centering the chat box */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            font-family: 'Arial', sans-serif;  
+        }
+
+        /* Chat container */
+        .chat {
+            width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            background: white;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .chatHistory {
+            flex: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Message wrapper */
+        .message {
+            max-width: 60%;
+            word-wrap: break-word;
+            white-space: normal; /* FIX: Prevents height increase */
+            display: inline-block; /* Ensures the box only fits the content */
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        /* My message (Right side) */
+        .my-msg {
+            align-self: flex-end;
+            justify-content: flex-end;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: inline-block; /* FIX: Prevents stretching */
+            max-width: fit-content; /* FIX: Prevents unnecessary width increase */
+        }
+
+        /* Their message (Left side) */
+        .their-msg {
+            align-self: flex-start;
+            justify-content: flex-start;
+            background-color: #e0e0e0;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 10px;
+            word-wrap: break-word;
+            display: inline-block; /* FIX: Prevents stretching */
+            max-width: fit-content; /* FIX: Prevents unnecessary width increase */
+        }
+
+        .chat-input { 
+            display: flex;  /* Keeps input and button in the same row */
+            justify-content: center; 
+            align-items: center; 
+            padding: 10px; 
+            background: white; 
+            border-top: 1px solid #ddd;
+            gap: 10px; /* NEW: Adds spacing between input and button */
+        }
+
+        .chat-input input {
+            flex: 1; 
+            max-width: 500px; /* Adjusted width to fit alongside the button */
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 20px; 
+            outline: none; 
+            font-size: 16px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: 0.2s ease-in-out;
+            white-space: nowrap; /* NEW: Prevents button text from wrapping */
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px; 
+            background-color: #ffffff; 
+            border-bottom: 2px solid #e0e0e0; 
+            height: 60px; 
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            height: 100px;
+        }
+        .chat-username {
+            font-size: 16px;
+            font-weight: 600; /* Slightly bolder */
+            color: #333; /* Darker for better readability */
+
+        }
+        .back-button {
+            position: absolute; /* Keeps it in place */
+            top: 20px; /* Adjust for better spacing */
+            left: 20px; /* Keeps it aligned to the left */
+            padding: 10px 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+            
+        }
+        .button-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start; /* Align button to the left */
+            padding: 10px 15px; /* Adds spacing */
+        }
+        .back-button a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Hover Effect */
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        /* Active Effect (when clicked) */
+        button:active {
+            transform: scale(0.98); /* Slight press-down effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="button-wrapper">
+        <button class="back-button"><a href="/user/friends"><=</a></button>
+    </div>
+    <div class="chat-header">
+        <span class="chat-username"><%= friend.Username %></span>
+    </div>
+    <div class="chat">
+        
+        <div class="chatHistory" id="history">
+            
+            <% messages.forEach(message => { %>
+                <div class="<%= message.senderID === senderID ? " message my-msg" : "message their-msg" %>">
+                    <%= message.message  %>
+                </div>
+                <br>
+                <br>
+            <% }) %>
+            
+        </div>
+        <div class="chat-input">
+            <input type="text" name="chat" placeholder="Type Your Message" id="chatbox">
+            <button onclick="sendmessage()">Send</button>
+        </div>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    socket.emit("userConnected", {user: "<%= senderID %>"})
+    function sendmessage() {
+        const msginp = document.getElementById("chatbox");
+        const msg = msginp.value;
+        const sendID = "<%= senderID %>"
+        const recID = "<%= receiverID; %>"
+
+        fetch('/messages/send', {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({senderID: sendID, receiverID: recID, message: msg})
+        })
+        
+        socket.emit("send_message", {senderID: sendID, receiverID: recID, message: msg})
+        
+        const chatbox = document.getElementById("history")
+        const messagebox = document.createElement("div")
+        messagebox.className = "my-msg"
+        messagebox.innerHTML = msg;
+        chatbox.appendChild(messagebox)
+        msginp.value = "";
+    }
+
+    socket.on("receive_message", (data) => {
+        console.log("hey man")
+        if (data.senderID === "<%= receiverID %>")
+        {
+            console.log("hi")
+            const chatbox = document.getElementById("history")
+            const messagebox = document.createElement("div")
+            messagebox.className = "their-msg"
+            messagebox.innerHTML = data.msg
+            chatbox.appendChild(messagebox)
+            
+        }
+    })
+</script>
+</html>

@@ -20,3 +20,10 @@ CREATE TABLE friends (
     userID_2 integer NOT NULL
 
 )
+
+CREATE TABLE messaged (
+    senderID integer NOT NULL,
+    receiverID integer NOT NULL,
+    sendDate DATETIME NOT NULL,
+    message TEXT(65000) NOT NULL
+)
