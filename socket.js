@@ -5,17 +5,16 @@ function setupSocket(server) {
      const onlineUsers = {};
     io.on("connection", (socket) => {
         socket.on("userConnected", (userID) => {
-            console.log(userID.user)
+
             onlineUsers[userID.user] = socket.id
-            console.log("Online Users after connection: ", onlineUsers);
+            
         });
 
         // Handle sending messages
         socket.on("send_message", ({ senderID, receiverID, message }) => {
-            console.log(onlineUsers)
-            console.log(receiverID)
+            
             const receiverSocketID = onlineUsers[receiverID];
-            console.log(receiverSocketID)
+        
             if (receiverSocketID) {
                 // Emit message to receiver if they are online
                 io.to(receiverSocketID).emit("receive_message", {senderID:senderID, msg:message });
@@ -30,7 +29,7 @@ function setupSocket(server) {
                     break;
                 }
             }
-            console.log("A user disconnected:", socket.id);
+
         });
     });
 

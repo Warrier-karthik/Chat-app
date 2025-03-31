@@ -4,32 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
+
+    <!-- Import Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            background-color: #007bff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 15px;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* User List */
+        .users-container {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .friend-requests {
+    width: 350px; /* Keep it like a sidebar */
+    min-height: 400px; /* Increased height */
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.friend-requests h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    flex-grow: 1;
+}
+
+.user-card h3 {
+    font-size: 16px;
+    color: #333;
+}
+
+.user-card form {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+    </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
     <nav>
         <ul>
-            <li><a href="/user/register">Register</a></li>
-            <li><a href="/user/login">Login</a></li>
+            
             <% if (isAuthenticated) { %>
                 <li><a href="/user">Profile</a></li>
                 <li><a href="/user/logout">Logout</a></li>
                 <li><a href="/user/friends">Friends</a></li>
+            <% } else { %>
+                <li><a href="/user/register">Register</a></li>
+                <li><a href="/user/login">Login</a></li>
             <% } %>
         </ul>
     </nav>
-    <% if (isAuthenticated) { %>
-        <div style="margin-top: 50px;">
-            <% users.forEach(element => { %>
-                <% if (element.Username !== name) { %>     
-                    <div style="width: 100vw; height: 100px; border-bottom: 1px solid black; overflow: hidden;">
-                        <h2><%= element.Username %></h2>
-                        <form action="/request" method="post">
-                            <button type="submit" value="<%= element.Username %>" name="send">Send Friend Request</button>
-                        </form>
-                    </div>
-                <% } %>
-            <% }) %>
-        </div>
-    <% } %>
 </body>
 </html>

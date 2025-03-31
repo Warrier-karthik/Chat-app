@@ -4,16 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+        }
+
+        /* Centered Box */
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Register Form Box */
+        .register-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        /* Heading */
+        .register-box h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Input Fields */
+        .register-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* Input Focus Effect */
+        .register-box input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Register Button */
+        .register-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Button Hover Effect */
+        .register-box button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Button Click Effect */
+        .register-box button:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 <body>
-    <form action="./register" method="post">
-        <input type="text" name="username" placeholder="Username">
-        <input type="email" name="email" placeholder="email">
-        <input type="text" name="Fname" placeholder="FirstName">
-        <input type="text" name="Lname" placeholder="LastName">
-        <input type="password" name="password" placeholder="password">
-        <input type="password" name="Cpassword" placeholder="Confirm password">
-        <button type="submit">Register</button>
-    </form>
+    <div class="register-container">
+        <form action="./register" method="post" class="register-box">
+            <h2>Register</h2>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="Fname" placeholder="First Name" required>
+            <input type="text" name="Lname" placeholder="Last Name" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="Cpassword" placeholder="Confirm Password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
 </body>
 </html>

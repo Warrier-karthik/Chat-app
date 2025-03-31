@@ -3,11 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name</title>
+    <title>User Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Apply modern font */
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        .username {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        /* Friend Requests */
+        .friend-requests {
+            margin-top: 20px;
+        }
+
+        .request-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .request-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .accept-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .accept-btn:hover {
+            background: #218838;
+        }
+
+        .reject-btn:hover {
+            background: #c82333;
+        }
+
+    </style>
 </head>
 <body>
-    <% if (isAuthenticated) { %>
-        <%- include('./layouts/friend_requests') %>
-    <% } %>
+
+    <div class="container">
+        <% if (isAuthenticated) { %>
+            <div class="user-profile">
+                <div class="avatar"><%= user.Username[0].toUpperCase() %></div>
+                <h2 class="username"><%= user.Username %></h2>
+            </div>
+
+            <div class="friend-requests">
+                <%- include('./layouts/friend_requests') %>
+            </div>
+        <% } %>
+    </div>
+
 </body>
 </html>

@@ -1,11 +1,13 @@
 <% requests.forEach(element => { %>
     <% if (element.status == 'pending') { %>
-        <div style="width: 100vw; height: 100px; border-bottom: 1px solid black; overflow: hidden;">
-            <h2>You have a friend Request From:<%= element.Username %></h2>
+        <div class="request-card">
+            <h3>You have a friend request from <span class="request-name"><%= element.Username %></span></h3>
             <form action="/request/setstatus" method="post">
-                <input value="<%= element.Username %>" name="sender" style="visibility: hidden;">
-                <button type="submit" value="accept" name="status">Accept</button>
-                <button type="submit" value="reject" name="status">Reject</button>
+                <input type="hidden" value="<%= element.Username %>" name="sender">
+                <div class="button-group">
+                    <button type="submit" value="accept" name="status" class="accept-btn">Accept</button>
+                    <button type="submit" value="reject" name="status" class="reject-btn">Reject</button>
+                </div>
             </form>
         </div>
     <% } %>
